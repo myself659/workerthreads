@@ -212,18 +212,29 @@ if (isMainThread) {
         });
     });
 
+    const RandomRange = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+    function sleep(ms) {
+        return new Promise((resolve) => {
+            setTimeout(resolve, ms);
+        });
+    }
     // 定义流水线阶段
     const pipeline = new Pipeline([
         async (input) => {
             logger.debug('Stage 1: Doubling input');
+            await sleep(RandomRange(1000, 10000));
             return input * 2;
         },
         async (input) => {
             logger.debug('Stage 2: Adding 10');
+            await sleep(RandomRange(1000, 10000));
             return input + 10;
         },
         async (input) => {
             logger.debug('Stage 3: Squaring');
+            await sleep(RandomRange(1000, 10000));
             return input ** 2;
         }
     ], 'MathPipeline');
